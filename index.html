@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="/mlp.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MLP Classifier Demo | Neural Network Visualization in WebAssembly</title>
+
+  <meta name="title" content="MLP Classifier Demo | Neural Network Visualization in WebAssembly">
+  <meta name="description"
+    content="Interactive 2D binary classification demo using a Multi-Layer Perceptron (MLP) implemented in Rust and compiled to WebAssembly for optimal performance.">
+  <meta name="keywords"
+    content="neural network, machine learning, multilayer perceptron, MLP, WebAssembly, Rust, Vue.js, binary classification, interactive demo">
+  <meta name="author" content="John Dews-Flick">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mlp.johndews.com">
+  <meta property="og:title" content="MLP Classifier Demo | Neural Network Visualization in WebAssembly">
+  <meta property="og:description"
+    content="Create custom neural network architectures and train them in real-time on 2D classification problems with this interactive WebAssembly-powered demo.">
+  <meta property="og:image" content="/mlp.png">
+
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://mlp.johndews.com">
+  <meta property="twitter:title" content="MLP Classifier Demo | Neural Network Visualization in WebAssembly">
+  <meta property="twitter:description"
+    content="Interactive neural network training visualization with custom architectures and real-time decision boundary plotting.">
+  <meta property="twitter:image" content="/mlp.png">
+  <meta name="application-name" content="MLP Classifier Demo">
+  <meta name="theme-color" content="#1a1a1a">
+  <meta name="robots" content="index, follow">
+  <meta name="format-detection" content="telephone=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+</head>
+
+<body>
+  <div id="app">[App Should Load in Here]</div>
+  <div class="about-section">
+    <h2>What is this?</h2>
+
+    <div class="about-content">
+      <section>
+        <h3>What is this?</h3>
+        <p>
+          This is a 2D binary classification demo using a <a href="https://en.wikipedia.org/wiki/Multilayer_perceptron"
+            target="_blank">Multi-Layer
+            Perceptron (MLP)</a> implemented in <a href="https://www.rust-lang.org/" target="_blank">Rust</a> and
+          compiled to <a href="https://webassembly.org/" target="_blank">WebAssembly</a> (WASM). WebAssembly provides
+          more performance than JavaScript
+          and allows compiling a complete neural network learning runtime to run in the browser.
+        </p>
+        <p>
+          <strong>Tech Stack:</strong>
+        </p>
+        <p>
+          <strong>Rust</strong>: Core neural network implementation<br>
+          <strong>WebAssembly</strong>: Runtime compilation target<br>
+          <strong>Vue.js</strong>: Frontend framework<br>
+          <strong>Plotting</strong>: Rust Plotters Library with Canvas Backend
+        </p>
+        <p>
+          Both the neural network training and the plot generation are handled in WebAssembly for optimal
+          performance and ease of use. Currently the JS client will step through the training process and
+          update the plot in real-time. Future versions will allow for training in the background with a web
+          worker.
+        </p>
+      </section>
+
+      <section>
+        <h3>How to Use This Tool</h3>
+        <ol>
+          <li><strong>Configure the network:</strong> Set layer sizes (e.g., "2,5,5,1" means 2 input neurons,
+            two hidden layers with 5 neurons each, and 1 output neuron)</li>
+          <li><strong>Adjust hyperparameters:</strong> Set learning rate, epochs, batch size, and loss
+            function</li>
+          <li><strong>Define your mask:</strong> Create a custom region using the mask syntax (see mask instructions)
+          </li>
+          <li><strong>Run training:</strong> Click the "Run Training" button to start</li>
+          <li><strong>Monitor progress:</strong> Watch the loss curve and decision boundary evolve in
+            real-time</li>
+          <li><strong>Stop anytime:</strong> Use the stop button if you want to interrupt training</li>
+        </ol>
+        <p>
+          <strong>Pro tip:</strong> Set a random seed for reproducible results. The URL updates with your
+          parameters so you can share configurations.
+        </p>
+      </section>
+
+      <section>
+        <h3>Mask Syntax Guide</h3>
+        <p>
+          The mask defines which regions in the 2D space (from -1 to 1 on both axes) are classified as
+          "inside" (1) or "outside" (0).
+        </p>
+        <p>
+          <strong>Basic primitives:</strong>
+        </p>
+        <ul>
+          <li><code>circle(r,x,y)</code> — Circle at position (x,y) with radius r</li>
+          <li><code>rec(x1,y1,x2,y2)</code> — Rectangle with opposite corners at (x1,y1) and (x2,y2)</li>
+          <li><code>!</code> — Negation operator (flips inside/outside)</li>
+          <li><code>&</code> — Logical AND operator (combines shapes)</li>
+        </ul>
+        <p>
+          <strong>Examples:</strong>
+        </p>
+        <ul>
+          <li><code>circle(0.5,0,0)</code> — Simple circle at origin</li>
+          <li><code>circle(0.5,0,0)&!circle(0.25,0,0)</code> — Ring shape (circle with hole)</li>
+          <li><code>circle(0.75,0,0)&!rec(-0.25,-0.25,0.25,0.25)</code> — Circle with square hole</li>
+          <li><code>rec(-0.5,-0.5,0.5,0.5)&!circle(0.3,0,0)</code> — Square with circular hole</li>
+        </ul>
+        <p>
+          <strong>Important:</strong> Operations are evaluated from left to right. For complex masks, build
+          them incrementally to understand how they combine.
+        </p>
+      </section>
+
+
+
+      <section>
+        <h3>Neural Network Architecture</h3>
+        <p>
+          This implementation uses a standard feedforward neural network with:
+        </p>
+        <ul>
+          <li>Configurable layer sizes</li>
+          <li>ReLU activation for hidden layers</li>
+          <li>Sigmoid activation for output layer</li>
+          <li>Mini-batch gradient descent optimization</li>
+          <li>Choice between MSE and BCE loss functions</li>
+        </ul>
+        <p>
+          <strong>Mathematical foundation:</strong>
+        </p>
+        <p>
+          <strong>Forward Pass:</strong><br>
+          <code>z = Wx + b</code>, <code>a = f(z)</code>
+        </p>
+        <p>
+          <strong>Activation Functions:</strong><br>
+          ReLU: <code>f(x) = max(0, x)</code><br>
+          Sigmoid: <code>σ(x) = 1 / (1 + e<sup>-x</sup>)</code>
+        </p>
+        <p>
+          <strong>Loss Functions:</strong><br>
+          MSE: <code>(1/n)∑(y - ŷ)²</code><br>
+          BCE: <code>-(y·log(ŷ) + (1−y)·log(1−ŷ))</code>
+        </p>
+      </section>
+
+      <section>
+        <h3>Other Resources</h3>
+        <ul>
+          <li><a href="https://www.deeplearningbook.org/" target="_blank">Deep Learning Book</a> by
+            Goodfellow, Bengio, and Courville</li>
+          <li><a href="https://playground.tensorflow.org/" target="_blank">TensorFlow Playground</a> for
+            interactive neural network visualization</li>
+          <li><a href="https://en.wikipedia.org/wiki/Backpropagation" target="_blank">Backpropagation
+              algorithm</a> explanation</li>
+          <li><a href="https://www.youtube.com/watch?v=VMj-3S1tku0&t=6310s" target="_blank">Python
+              backpropagation explainer</a>by Andrej Karpathy</li>
+        </ul>
+
+        <h3>History of MLP Research</h3>
+        <p>
+          Multilayer Perceptrons (MLPs) have a rich history dating back to the 1940s. The theoretical foundations were first established in 1943 when Warren McCulloch and Walter Pitts introduced the concept of artificial neurons. The perceptron, a single-layer neural network, was invented by Frank Rosenblatt in 1958, but it had significant limitations.
+        </p>
+        <p>
+          The breakthrough for MLPs came in 1986 when David Rumelhart, Geoffrey Hinton, and Ronald Williams published their seminal paper on backpropagation, solving the training problem for networks with hidden layers. Despite this advance, MLPs fell out of favor in the 1990s due to computational limitations and the rise of support vector machines.
+        </p>
+        <p>
+          MLPs were dramatically revitalized in the mid-2000s with the advent of deep learning. The combination of increased computational power, larger datasets, and algorithmic improvements allowed for training deeper networks. Today, MLPs serve as the foundation for more complex neural network architectures and remain fundamental building blocks in modern machine learning systems.
+        </p>
+
+      </section>
+
+
+    </div>
+  </div>
+  <footer>
+    <p>
+      Made with Love by <a href="https://johndews.com" target="_blank">John Dews-Flick</a> | 2025 </p>
+  </footer>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
