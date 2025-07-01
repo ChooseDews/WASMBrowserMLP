@@ -12,6 +12,8 @@ permissions:
 
 jobs:
   build:
+    environment:
+      name: main
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -29,6 +31,10 @@ jobs:
           toolchain: stable
           profile: minimal
           override: true
+          
+      - name: Inject tracking script into index.html
+        run: |          
+          sed -i 's|</head>|${{ secrets.EXTRA_SCRIPT }}\n</head>|' index.html
 
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
