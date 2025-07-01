@@ -2,6 +2,7 @@
 import { ref, onMounted, computed, nextTick } from 'vue'
 import init, { MLP, get_training_data, plot_results, plot_mask, set_seed, plot_loss } from '../../rust_lib/pkg/rust_lib.js';
 import About from './About.vue';
+import ActivationVisualizer from './ActivationVisualizer.vue';
 
 const predictions = ref([])
 const trainingLog = ref("")
@@ -23,6 +24,7 @@ const totalEpochs = ref(0);
 const trainingProgress = ref(0);
 const currentLoss = ref(0);
 const randomSeed = ref(42);
+const hoverActivations = ref(null);
 
 let mlp = null;
 let trainingData = null;
@@ -186,6 +188,15 @@ const plotMask = () => {
   }
 };
 
+const handleMouseMove = (e) => {
+  if (!mlp) return;
+  const canvas = e.target;
+  const rect = canvas.getBoundingClientRect();
+  const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+  const y = (1 - (e.clientY - rect.top) / rect.height) * 2 - 1;
+  hoverActivations.value = mlp.forward_collect(Float64Array.from([x, y]));
+};
+
 onMounted(async () => {
   loadParamsFromUrl();
   await init();
@@ -303,7 +314,7 @@ onMounted(async () => {
 
       </div>
       <div class="right-panel">
-        <canvas id="result-chart"></canvas>
+        <canvas id="result-chart" @mousemove="handleMouseMove"></canvas>
         <canvas id="mask-chart"></canvas>
         <h2>MLP Visualizer:</h2>
         <div class="network-visualizer">
@@ -319,6 +330,7 @@ onMounted(async () => {
             </div>
           </div>
         </div>
+        <ActivationVisualizer v-if="hoverActivations" :activations="hoverActivations" />
       </div>
     </main>
 
