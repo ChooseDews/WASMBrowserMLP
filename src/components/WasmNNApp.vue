@@ -166,6 +166,7 @@ const startTraining = async () => {
       }
       plot_results("result-chart", mlp, testData, maskInput.value);
       trainingTimeMs.value = Date.now() - startTime;
+      zeroActivationsResult();
     }
 
     loading.value = false;
@@ -195,6 +196,12 @@ const handleMouseMove = (e) => {
   const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
   const y = (1 - (e.clientY - rect.top) / rect.height) * 2 - 1;
   hoverActivations.value = mlp.forward_collect(Float64Array.from([x, y]));
+  hoverActivations.value.unshift([x, y]);
+};
+
+const zeroActivationsResult = () => {
+  hoverActivations.value = mlp.forward_collect(Float64Array.from([0, 0]));
+  hoverActivations.value.unshift([0, 0]);
 };
 
 onMounted(async () => {
@@ -314,6 +321,7 @@ onMounted(async () => {
 
       </div>
       <div class="right-panel">
+        <ActivationVisualizer v-if="hoverActivations" :activations="hoverActivations" />
         <canvas id="result-chart" @mousemove="handleMouseMove"></canvas>
         <canvas id="mask-chart"></canvas>
         <h2>MLP Visualizer:</h2>
@@ -330,7 +338,6 @@ onMounted(async () => {
             </div>
           </div>
         </div>
-        <ActivationVisualizer v-if="hoverActivations" :activations="hoverActivations" />
       </div>
     </main>
 
