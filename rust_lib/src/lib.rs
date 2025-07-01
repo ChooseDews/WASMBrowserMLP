@@ -272,6 +272,17 @@ impl MLP {
         self.forward(inputs)
     }
 
+    #[wasm_bindgen]
+    pub fn forward_collect(&mut self, inputs: &[f64]) -> JsValue {
+        let mut activations = Vec::new();
+        let mut current_inputs = inputs.to_vec();
+        for layer in &mut self.layers {
+            current_inputs = layer.forward(&current_inputs);
+            activations.push(current_inputs.clone());
+        }
+        serde_wasm_bindgen::to_value(&activations).unwrap()
+    }
+
     fn forward(&mut self, inputs: &[f64]) -> Vec<f64> {
         let mut current_inputs = inputs.to_vec();
         for layer in &mut self.layers {
