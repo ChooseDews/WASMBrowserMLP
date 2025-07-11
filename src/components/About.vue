@@ -27,7 +27,7 @@ import target from '../assets/examples/target.png'
 let examples = [
     {
         name: "Target",
-        link: "http://localhost:5173/?maskInput=circle%280.9%2C0%2C0%29%26%21circle%280.6%2C0%2C0%29%26circle%280.4%2C0%2C0%29%0A&batchSize=10&lossFunction=bce&randomSeed=42&learningRate=0.015&epochs=2000&trainingDataAmount=2500&layerSizesInput=2%2C20%2C10%2C1",
+        link: "/?maskInput=circle%280.9%2C0%2C0%29%26%21circle%280.6%2C0%2C0%29%26circle%280.4%2C0%2C0%29%0A&batchSize=10&lossFunction=bce&randomSeed=42&learningRate=0.015&epochs=2000&trainingDataAmount=2500&layerSizesInput=2%2C20%2C10%2C1",
         image: target
     },
     {
@@ -47,7 +47,7 @@ let examples = [
     },
     {
         name: "Circles",
-        link: "http://localhost:5173/?learningRate=0.005&epochs=1500&trainingDataAmount=9000&layerSizesInput=2%2C60%2C30%2C15%2C1&maskInput=circle%281%2C0%2C0%29+%26+%21circle%280.95%2C0%2C0%29+%26+circle%280.9%2C0%2C0%29+%26+%21circle%280.85%2C0%2C0%29+%26+circle%280.8%2C0%2C0%29+%26+%21circle%280.75%2C0%2C0%29+%26+circle%280.7%2C0%2C0%29+%26+%21circle%280.65%2C0%2C0%29+%26+circle%280.6%2C0%2C0%29+%26+%21circle%280.55%2C0%2C0%29+%26+circle%280.5%2C0%2C0%29+%26+%21circle%280.45%2C0%2C0%29+%26+circle%280.4%2C0%2C0%29+%26%21circle%280.35%2C0%2C0%29+%26+circle%280.3%2C0%2C0%29+%26+%21circle%280.25%2C0%2C0%29+%26+circle%280.2%2C0%2C0%29+%26+%21circle%280.15%2C0%2C0%29+%26+circle%280.1%2C0%2C0%29+%26+%21circle%280.05%2C0%2C0%29&batchSize=1000&lossFunction=bce&randomSeed=42",
+        link: "/?learningRate=0.005&epochs=1500&trainingDataAmount=9000&layerSizesInput=2%2C60%2C30%2C15%2C1&maskInput=circle%281%2C0%2C0%29+%26+%21circle%280.95%2C0%2C0%29+%26+circle%280.9%2C0%2C0%29+%26+%21circle%280.85%2C0%2C0%29+%26+circle%280.8%2C0%2C0%29+%26+%21circle%280.75%2C0%2C0%29+%26+circle%280.7%2C0%2C0%29+%26+%21circle%280.65%2C0%2C0%29+%26+circle%280.6%2C0%2C0%29+%26+%21circle%280.55%2C0%2C0%29+%26+circle%280.5%2C0%2C0%29+%26+%21circle%280.45%2C0%2C0%29+%26+circle%280.4%2C0%2C0%29+%26%21circle%280.35%2C0%2C0%29+%26+circle%280.3%2C0%2C0%29+%26+%21circle%280.25%2C0%2C0%29+%26+circle%280.2%2C0%2C0%29+%26+%21circle%280.15%2C0%2C0%29+%26+circle%280.1%2C0%2C0%29+%26+%21circle%280.05%2C0%2C0%29&batchSize=1000&lossFunction=bce&randomSeed=42",
         image: circles
     }
 ]
